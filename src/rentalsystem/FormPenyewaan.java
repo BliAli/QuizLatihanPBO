@@ -1,18 +1,21 @@
 package rentalsystem;
 
+import java.util.HashMap;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Map;
 
 /* @author aliad*/
-public class FormPenyewaan extends JFrame implements ItemListener{
+public class FormPenyewaan extends JFrame{
     private JTextField namaInput, noTelponInput, lamaSewaInput;
-    private JRadioButton rb1, rb2, rb3;
-    private ButtonGroup daftarKendaraan;
+    private HashMap <String, Integer> daftarKendaraan;
+    private ButtonGroup pilihanKendaraan;
     private JLabel hargaLabel;
     private String jenisKendaraan;
-    private JButton btnSubmit;
     private String kendaraanSelected;
+    private double hargaSewa;
+    private JButton btnSubmit;
 
     public FormPenyewaan(String jenisKendaraan) throws HeadlessException {
         this.jenisKendaraan = jenisKendaraan;
@@ -32,66 +35,55 @@ public class FormPenyewaan extends JFrame implements ItemListener{
         add(noTelponInput);
         
         add(new JLabel("Daftar Kendaraaan:"));
-        JPanel daftarKendaraanPanel = new JPanel();
-        daftarKendaraanPanel.setLayout(new FlowLayout());
         
+        daftarKendaraan = new HashMap<>();
         if(jenisKendaraan.equals("Motor")){
-            rb1 = new JRadioButton("Supra-X");
-            rb2 = new JRadioButton("Beat Karbu");
-            rb3 = new JRadioButton("Motor Tetangga");
+            daftarKendaraan.put("Supra-X", 75000);
+            daftarKendaraan.put("Beat Karbu", 90000);
+            daftarKendaraan.put("Motor Tetangga", 120000);
         } else if(jenisKendaraan.equals("Mobil")){
-            rb1 = new JRadioButton("Avanza");
-            rb2 = new JRadioButton("Inova");
-            rb3 = new JRadioButton("Mclaren lo warna apa?");
+            daftarKendaraan.put("Mercedes", 180000);
+            daftarKendaraan.put("Truk Angkut", 200000);
+            daftarKendaraan.put("McQueen", 250000);
         }
-        daftarKendaraan = new ButtonGroup();
-        daftarKendaraan.add(rb1);
-        daftarKendaraan.add(rb2);
-        daftarKendaraan.add(rb3);
+        hargaLabel = new JLabel("Harga\t: Rp. -");
         
-        daftarKendaraanPanel.add(rb1);
-        daftarKendaraanPanel.add(rb2);
-        daftarKendaraanPanel.add(rb3);
-        add(daftarKendaraanPanel);
+        pilihanKendaraan = new ButtonGroup();
+        JPanel pilihanKendaraanPanel = new JPanel();
+        pilihanKendaraanPanel.setLayout(new FlowLayout());
         
-        rb1.addItemListener(this);
-        rb2.addItemListener(this);
-        rb3.addItemListener(this);
+        for (String namaKendaraan : daftarKendaraan.keySet()) {
+            JRadioButton rbKendaraan = new JRadioButton(namaKendaraan);
+            pilihanKendaraan.add(rbKendaraan);
+            pilihanKendaraanPanel.add(rbKendaraan);
+            
+            rbKendaraan.addActionListener(e -> {
+                kendaraanSelected = namaKendaraan;
+                hargaSewa = daftarKendaraan.get(namaKendaraan);
+                hargaLabel.setText("Harga\t: Rp. " + hargaSewa);
+            });
+        }
+        add(hargaLabel);
+        add(pilihanKendaraanPanel);
         
         add(new JLabel("Lama Sewa (Hari)\t: "));
         lamaSewaInput = new JTextField();
         add(lamaSewaInput);
-        
-        hargaLabel = new JLabel("Rp 100.000");
-        add(hargaLabel);
         
         btnSubmit = new JButton("Submit");
         add(btnSubmit);
         btnSubmit.addActionListener(e -> inputData()); //biar cpt
         
         setVisible(true);
-
-        
-    }
-
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        JRadioButton btnSelected = (JRadioButton) e.getItem();
-        if (e.getStateChange() == ItemEvent.SELECTED){
-            kendaraanSelected = btnSelected.getText();
-        } else {
-        }
-    }        
+    }    
     public void inputData(){
         try {
             String nama = namaInput.getText();
             String noTelpon = noTelponInput.getText();
             int lamaSewa = Integer.parseInt(lamaSewaInput.getText());
-            double hargaSewa = 0;
-            if (jenisKendaraan.equals("Motor")) {
-                hargaSewa = 80000;
-            } else if (jenisKendaraan.equals("Mobil")){
-                hargaSewa = 160000;
+            
+            if (kendaraanSelected == null) {
+                JOptionPane.showMessageDialog(this, "Pilih " + jenisKendaraan + " Yang Hendak Disewa !", "Error", JOptionPane.ERROR_MESSAGE);
             }
             
             DataRental data = new DataRental(nama, jenisKendaraan, kendaraanSelected , noTelpon, lamaSewa, hargaSewa);
