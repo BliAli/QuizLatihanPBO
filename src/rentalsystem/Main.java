@@ -4,17 +4,11 @@
  */
 package rentalsystem;
 
-/**
- *
- * @author aliad
- */
+/* @author aliad */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        RentalSystemGUI GUI = new RentalSystemGUI();
     }
     
 }
