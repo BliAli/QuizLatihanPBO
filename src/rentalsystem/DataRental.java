@@ -19,9 +19,9 @@ public class DataRental {
     public String getDetail(){
         return 
             "Nama\t\t: " + this.namaPenyewa +
-            "\nNo Telepon\t: " + this.noTelpon +
+            "\nNo Telepon\t\t: " + this.noTelpon +
             "\nJenis Kendaraan\t: " + this.jenisKendaraan +
             "\nNama Kendaraan\t: " + this.namaKendaraan +
-            "\nLama Sewa\t: " + this.lamaSewa + " Hari";
+            "\nLama Sewa\t\t: " + this.lamaSewa + " Hari";
     }
 }
