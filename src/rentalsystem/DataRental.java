@@ -2,11 +2,11 @@ package rentalsystem;
 
 /* @author aliad */
 public class DataRental {
-    private String namaPenyewa, jenisKendaraan, namaKendaraan;
-    private int noTelpon, lamaSewa;
+    private String namaPenyewa, jenisKendaraan, namaKendaraan, noTelpon;
+    private int lamaSewa;
     private double hargaSewa;
 
-    public DataRental(String nama, String jenis, String namaKendaraan, int noTelp, int lamaSewa, double harga) {
+    public DataRental(String nama, String jenis, String namaKendaraan, String noTelp, int lamaSewa, double harga) {
         this.namaPenyewa = nama;
         this.jenisKendaraan = jenis;
         this.noTelpon = noTelp;
