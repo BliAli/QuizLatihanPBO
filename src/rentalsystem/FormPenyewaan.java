@@ -87,10 +87,14 @@ public class FormPenyewaan extends JFrame implements ItemListener{
             String nama = namaInput.getText();
             String noTelpon = noTelponInput.getText();
             int lamaSewa = Integer.parseInt(lamaSewaInput.getText());
+            double hargaSewa = 0;
+            if (jenisKendaraan.equals("Motor")) {
+                hargaSewa = 80000;
+            } else if (jenisKendaraan.equals("Mobil")){
+                hargaSewa = 160000;
+            }
             
-            double totalHarga = lamaSewa * 100000;
-            
-            DataRental data = new DataRental(nama, jenisKendaraan, kendaraanSelected , noTelpon, lamaSewa, totalHarga);
+            DataRental data = new DataRental(nama, jenisKendaraan, kendaraanSelected , noTelpon, lamaSewa, hargaSewa);
             new ResultRental(data);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Input tidak valid", "Error", JOptionPane.ERROR_MESSAGE);
