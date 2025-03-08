@@ -5,19 +5,21 @@ import java.awt.*;
 import java.awt.event.*;
 
 /* @author aliad*/
-public class FormPenyewaan extends JFrame implements ActionListener{
+public class FormPenyewaan extends JFrame implements ItemListener{
     private JTextField namaInput, noTelponInput, lamaSewaInput;
-    private JComboBox<String> kendaraanBox;
+    private JRadioButton rb1, rb2, rb3;
+    private ButtonGroup daftarKendaraan;
     private JLabel hargaLabel;
     private String jenisKendaraan;
     private JButton btnSubmit;
+    private String kendaraanSelected;
 
     public FormPenyewaan(String jenisKendaraan) throws HeadlessException {
         this.jenisKendaraan = jenisKendaraan;
         
         setTitle("Form Pengisian Data Sewa");
         setLayout(new GridLayout(6, 1));
-        setSize(400, 300);
+        setSize(600, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
@@ -29,12 +31,32 @@ public class FormPenyewaan extends JFrame implements ActionListener{
         noTelponInput = new JTextField();
         add(noTelponInput);
         
-        add(new JLabel("Kendaraan:"));
-        String[] kendaraanMotor = {"Supra X", "Beat Karbu", "Motor Tetangga"};
-        String[] kendaraanMobil = {"Avanza", "BMW 3 Series", "Mustang"};
+        add(new JLabel("Daftar Kendaraaan:"));
+        JPanel daftarKendaraanPanel = new JPanel();
+        daftarKendaraanPanel.setLayout(new FlowLayout());
         
-        kendaraanBox = new JComboBox<>(this.jenisKendaraan.equals("Motor") ? kendaraanMotor : kendaraanMobil);
-        add(kendaraanBox);
+        if(jenisKendaraan.equals("Motor")){
+            rb1 = new JRadioButton("Supra-X");
+            rb2 = new JRadioButton("Beat Karbu");
+            rb3 = new JRadioButton("Motor Tetangga");
+        } else if(jenisKendaraan.equals("Mobil")){
+            rb1 = new JRadioButton("Avanza");
+            rb2 = new JRadioButton("Inova");
+            rb3 = new JRadioButton("Mclaren lo warna apa?");
+        }
+        daftarKendaraan = new ButtonGroup();
+        daftarKendaraan.add(rb1);
+        daftarKendaraan.add(rb2);
+        daftarKendaraan.add(rb3);
+        
+        daftarKendaraanPanel.add(rb1);
+        daftarKendaraanPanel.add(rb2);
+        daftarKendaraanPanel.add(rb3);
+        add(daftarKendaraanPanel);
+        
+        rb1.addItemListener(this);
+        rb2.addItemListener(this);
+        rb3.addItemListener(this);
         
         add(new JLabel("Lama Sewa (Hari)\t: "));
         lamaSewaInput = new JTextField();
@@ -45,7 +67,7 @@ public class FormPenyewaan extends JFrame implements ActionListener{
         
         btnSubmit = new JButton("Submit");
         add(btnSubmit);
-        btnSubmit.addActionListener(this);
+        btnSubmit.addActionListener(e -> inputData()); //biar cpt
         
         setVisible(true);
 
@@ -53,22 +75,22 @@ public class FormPenyewaan extends JFrame implements ActionListener{
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnSubmit) {
-            inputData();
+    public void itemStateChanged(ItemEvent e) {
+        JRadioButton btnSelected = (JRadioButton) e.getItem();
+        if (e.getStateChange() == ItemEvent.SELECTED){
+            kendaraanSelected = btnSelected.getText();
+        } else {
         }
-    }
-    
+    }        
     public void inputData(){
         try {
             String nama = namaInput.getText();
             String noTelpon = noTelponInput.getText();
-            String namaKendaraan = (String) kendaraanBox.getSelectedItem();
             int lamaSewa = Integer.parseInt(lamaSewaInput.getText());
             
             double totalHarga = lamaSewa * 100000;
             
-            DataRental data = new DataRental(nama, "Mobil", namaKendaraan , noTelpon, lamaSewa, totalHarga);
+            DataRental data = new DataRental(nama, jenisKendaraan, kendaraanSelected , noTelpon, lamaSewa, totalHarga);
             new ResultRental(data);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Input tidak valid", "Error", JOptionPane.ERROR_MESSAGE);
