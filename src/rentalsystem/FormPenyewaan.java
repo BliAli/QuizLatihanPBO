@@ -15,26 +15,30 @@ public class FormPenyewaan extends JFrame{
     private String jenisKendaraan;
     private String kendaraanSelected;
     private double hargaSewa;
-    private JButton btnSubmit;
+    private JButton btnSubmit, btnKembali;
+    private JFrame prevPage;
 
-    public FormPenyewaan(String jenisKendaraan) throws HeadlessException {
+    public FormPenyewaan(String jenisKendaraan, JFrame prevPage) throws HeadlessException {
         this.jenisKendaraan = jenisKendaraan;
+        this.prevPage = prevPage;
         
         setTitle("Form Pengisian Data Sewa");
-        setLayout(new GridLayout(6, 1));
+        setLayout(new BorderLayout(10, 10));
         setSize(600, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
-        add(new JLabel("Nama\t: "));
+        JPanel formPanel = new JPanel(new GridLayout(4, 2, 5, 5));
+        
+        formPanel.add(new JLabel("Nama\t: "));
         namaInput = new JTextField();
-        add(namaInput);
+        formPanel.add(namaInput);
         
-        add(new JLabel("No Telepon\t: "));
+        formPanel.add(new JLabel("No Telepon\t: "));
         noTelponInput = new JTextField();
-        add(noTelponInput);
+        formPanel.add(noTelponInput);
         
-        add(new JLabel("Daftar Kendaraaan:"));
+        formPanel.add(new JLabel("Daftar Kendaraaan:"));
         
         daftarKendaraan = new HashMap<>();
         if(jenisKendaraan.equals("Motor")){
@@ -46,11 +50,9 @@ public class FormPenyewaan extends JFrame{
             daftarKendaraan.put("Truk Angkut", 200000);
             daftarKendaraan.put("McQueen", 250000);
         }
-        hargaLabel = new JLabel("Harga\t: Rp. -");
         
+        JPanel pilihanKendaraanPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         pilihanKendaraan = new ButtonGroup();
-        JPanel pilihanKendaraanPanel = new JPanel();
-        pilihanKendaraanPanel.setLayout(new FlowLayout());
         
         for (String namaKendaraan : daftarKendaraan.keySet()) {
             JRadioButton rbKendaraan = new JRadioButton(namaKendaraan);
@@ -60,19 +62,38 @@ public class FormPenyewaan extends JFrame{
             rbKendaraan.addActionListener(e -> {
                 kendaraanSelected = namaKendaraan;
                 hargaSewa = daftarKendaraan.get(namaKendaraan);
-                hargaLabel.setText("Harga\t: Rp. " + hargaSewa);
+                hargaLabel.setText("Harga\t: Rp. " + hargaSewa + " /hari");
             });
         }
-        add(hargaLabel);
-        add(pilihanKendaraanPanel);
+        formPanel.add(pilihanKendaraanPanel);
         
-        add(new JLabel("Lama Sewa (Hari)\t: "));
+        hargaLabel = new JLabel("Harga\t: Rp. - /hari");
+        JPanel hargaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        hargaPanel.add(hargaLabel);
+        
+        formPanel.add(new JLabel("Lama Sewa (Hari)\t: "));
         lamaSewaInput = new JTextField();
-        add(lamaSewaInput);
+        formPanel.add(lamaSewaInput);
         
         btnSubmit = new JButton("Submit");
-        add(btnSubmit);
         btnSubmit.addActionListener(e -> inputData()); //biar cpt
+        
+        btnKembali = new JButton("Kembali");
+        btnKembali.addActionListener(e -> {
+            dispose();
+            prevPage.setVisible(true);
+        });
+                
+        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btnPanel.add(btnKembali);
+        btnPanel.add(btnSubmit);
+        
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(hargaPanel, BorderLayout.NORTH);
+        bottomPanel.add(btnPanel, BorderLayout.CENTER);
+        
+        add(formPanel, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);   
         
         setVisible(true);
     }    
