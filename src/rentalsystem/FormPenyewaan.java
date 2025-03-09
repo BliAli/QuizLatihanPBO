@@ -15,10 +15,12 @@ public class FormPenyewaan extends JFrame{
     private String jenisKendaraan;
     private String kendaraanSelected;
     private double hargaSewa;
-    private JButton btnSubmit;
+    private JButton btnSubmit, btnKembali;
+    private JFrame prevPage;
 
-    public FormPenyewaan(String jenisKendaraan) throws HeadlessException {
+    public FormPenyewaan(String jenisKendaraan, JFrame prevPage) throws HeadlessException {
         this.jenisKendaraan = jenisKendaraan;
+        this.prevPage = prevPage;
         
         setTitle("Form Pengisian Data Sewa");
         setLayout(new BorderLayout(10, 10));
@@ -76,12 +78,19 @@ public class FormPenyewaan extends JFrame{
         btnSubmit = new JButton("Submit");
         btnSubmit.addActionListener(e -> inputData()); //biar cpt
         
-        JPanel submitPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        submitPanel.add(btnSubmit);
+        btnKembali = new JButton("Kembali");
+        btnKembali.addActionListener(e -> {
+            dispose();
+            prevPage.setVisible(true);
+        });
+                
+        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btnPanel.add(btnKembali);
+        btnPanel.add(btnSubmit);
         
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.add(hargaPanel, BorderLayout.NORTH);
-        bottomPanel.add(submitPanel, BorderLayout.CENTER);
+        bottomPanel.add(btnPanel, BorderLayout.CENTER);
         
         add(formPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);   
