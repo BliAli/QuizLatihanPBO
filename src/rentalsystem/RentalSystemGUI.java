@@ -38,8 +38,10 @@ public class RentalSystemGUI extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnMotor) {
             new FormPenyewaan("Motor");
+            dispose();
         } else if (e.getSource() == btnMobil){
             new FormPenyewaan("Mobil");
+            dispose();
         }
     }
     
