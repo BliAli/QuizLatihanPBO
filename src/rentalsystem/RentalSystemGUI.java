@@ -37,11 +37,11 @@ public class RentalSystemGUI extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnMotor) {
-            new FormPenyewaan("Motor");
-            dispose();
+            setVisible(false);
+            new FormPenyewaan("Motor", this);
         } else if (e.getSource() == btnMobil){
-            new FormPenyewaan("Mobil");
-            dispose();
+            setVisible(false);
+            new FormPenyewaan("Mobil", this);
         }
     }
     
