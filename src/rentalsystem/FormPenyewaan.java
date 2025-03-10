@@ -108,7 +108,8 @@ public class FormPenyewaan extends JFrame{
             }
             
             DataRental data = new DataRental(nama, jenisKendaraan, kendaraanSelected , noTelpon, lamaSewa, hargaSewa);
-            new ResultRental(data);
+            setVisible(false);
+            new ResultRental(data, this);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Input tidak valid", "Error", JOptionPane.ERROR_MESSAGE);
         }
