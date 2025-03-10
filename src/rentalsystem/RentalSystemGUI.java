@@ -11,13 +11,13 @@ public class RentalSystemGUI extends JFrame implements ActionListener{
     
     public RentalSystemGUI() throws HeadlessException {
         setTitle("Rental System by Bli Ali");
-        setLayout(new GridLayout(2, 1));
-        setSize(400, 300);
+        setLayout(new FlowLayout());
+        setSize(300, 100);
         
         labelPilihan = new JLabel("Pilih Jenis Kendaraan Yang Ingin Anda Sewa : ", SwingConstants.CENTER);
         add(labelPilihan);
         
-        JPanel btnKendaraan = new JPanel(new GridLayout(1, 2, 10, 0));
+        JPanel btnKendaraan = new JPanel(new GridLayout(1, 2, 10, 10));
         btnMotor = new JButton("Motor");
         btnMobil = new JButton("Mobil");
         
