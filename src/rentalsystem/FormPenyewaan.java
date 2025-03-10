@@ -24,11 +24,11 @@ public class FormPenyewaan extends JFrame{
         
         setTitle("Form Pengisian Data Sewa");
         setLayout(new BorderLayout(10, 10));
-        setSize(600, 400);
+        setSize(450, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
-        JPanel formPanel = new JPanel(new GridLayout(4, 2, 5, 5));
+        JPanel formPanel = new JPanel(new GridLayout(4, 2, 20, 20));
         
         formPanel.add(new JLabel("Nama\t: "));
         namaInput = new JTextField();
